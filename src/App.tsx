@@ -7,7 +7,7 @@ import Todo from './todo.tsx';
 function App() {
   return (
     <Routes>
-      <Route path="/siginin" element={<SignIn />} />
+      <Route path="/signin" element={<SignIn />} />
       <Route path="/siginup" element={<SingUp />} />
       <Route path="/todo" element={<Todo />} />
     </Routes>

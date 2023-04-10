@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "plugins": ["react", "react-hooks"],
+  "ignorePatterns": ["node_modules/"],
+  "rules": {
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
+    "no-undef": "off"
+    // 여기에 사용하고자 하는 규칙을 추가합니다.
+  }
+}

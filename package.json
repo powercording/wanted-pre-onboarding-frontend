@@ -45,7 +45,8 @@
             ".tsx"
           ]
         }
-      ]
+      ],
+      "no-undef": "off"
     }
   },
   "browserslist": {

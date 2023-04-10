@@ -25,10 +25,6 @@ interface InputType {
   testId?: string;
 }
 
-Input.defaultProps = {
-  testId: null,
-};
-
 export default function Input(props: InputType) {
   const { type, placeholder, label, testId } = props;
 
@@ -48,3 +44,7 @@ export default function Input(props: InputType) {
 
   return <InputTag type={type} placeholder={placeholder} />;
 }
+
+Input.defaultProps = {
+  testId: null,
+};
