@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Inpuut from './components/Input.tsx';
 import Button from './components/button.tsx';
-import useSignin from './hooks/useSignin.tsx';
+import useSignApi from './hooks/useSignApi.tsx';
 import useRedirect from './hooks/useRedirect.tsx';
 import CONST from './lib/CONSTANT.ts';
 
@@ -22,11 +22,11 @@ export default function SignIn() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
-  const [signinFn, signinResult, signinError] = useSignin(
+  const [signinFn, signinResult, signinError] = useSignApi(
     `${CONST.API}${CONST.SIGNIN}`,
   );
 
-  //if loggedin
+  // if loggedin redirect user to "todo" page
   useRedirect({ type: 'LOGIN', path: '/todo', isLogin });
 
   useEffect(() => {
@@ -71,6 +71,7 @@ export default function SignIn() {
 
   return (
     <SigninContainer>
+      <h1>Singin</h1>
       <Form onSubmit={handleSubmit}>
         <Inpuut
           type="text"
