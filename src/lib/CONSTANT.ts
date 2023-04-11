@@ -4,6 +4,7 @@ const CONST = {
   SIGNIN: '/auth/signin',
   VALIDEMAIL: '@',
   VALIDPASSWORD: 8,
+  TODOS: '/todos',
 };
 
 export default CONST;
