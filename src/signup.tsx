@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Inpuut from './components/Input.tsx';
 import Button from './components/button.tsx';
 import useSignup from './hooks/useSignup.tsx';
+import useRedirect from './hooks/useRedirect.tsx';
 import CONST from './lib/CONSTANT.ts';
 
 const SigninContainer = styled.div`
@@ -17,12 +18,16 @@ const Form = styled.form`
 `;
 
 export default function SingUp() {
+  const isLogin = localStorage.getItem('token');
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
   const [signupFn, signupData, singupError] = useSignup(
     `${CONST.API}${CONST.SIGNUP}`,
   );
+
+  //if loggedin
+  useRedirect({ type: 'LOGIN', path: '/todo', isLogin });
 
   useEffect(() => {
     if (signupData === 201) {

@@ -6,7 +6,7 @@ export default function useSignin(url: string) {
   const [error, setError] = useState<string | null>(null);
 
   interface SigninResponse {
-    acces_token: string;
+    access_token: string;
   }
 
   const fn = async function fetchFN(form: FormData, method: 'POST') {
@@ -25,7 +25,8 @@ export default function useSignin(url: string) {
       );
 
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.acces_token);
+        localStorage.setItem('token', response.data.access_token);
+
         setData(response.status);
       }
     } catch (axiosError) {

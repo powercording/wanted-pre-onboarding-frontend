@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Inpuut from './components/Input.tsx';
 import Button from './components/button.tsx';
-import CONST from './lib/CONSTANT.ts';
 import useSignin from './hooks/useSignin.tsx';
+import useRedirect from './hooks/useRedirect.tsx';
+import CONST from './lib/CONSTANT.ts';
 
 const SigninContainer = styled.div`
   padding: 20px;
@@ -17,12 +18,16 @@ const Form = styled.form`
 `;
 
 export default function SignIn() {
+  const isLogin = localStorage.getItem('token');
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
   const [signinFn, signinResult, signinError] = useSignin(
     `${CONST.API}${CONST.SIGNIN}`,
   );
+
+  //if loggedin
+  useRedirect({ type: 'LOGIN', path: '/todo', isLogin });
 
   useEffect(() => {
     if (signinResult === 200) {
