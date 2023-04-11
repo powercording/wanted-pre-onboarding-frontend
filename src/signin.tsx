@@ -17,15 +17,26 @@ export default function SignIn() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
+  const isValidEmail = (inputId: string) => {
+    return inputId.includes('@');
+  };
+
+  const isValidPassword = (inputPassword: string) => {
+    return inputPassword.length >= 8;
+  };
+
   const handleInputId = (e: React.ChangeEvent<HTMLInputElement>) => {
     setId(e.target.value);
   };
+
   const handleInputPassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
   return (
     <SigninContainer>
       <Form onSubmit={handleSubmit}>
@@ -33,6 +44,7 @@ export default function SignIn() {
           type="text"
           placeholder="아이디"
           label="아이디"
+          testId="email-input"
           value={id}
           onChange={handleInputId}
         />
@@ -40,10 +52,17 @@ export default function SignIn() {
           type="password"
           placeholder="비밀번호"
           label="비밀번호"
+          testId="password-input"
           value={password}
           onChange={handleInputPassword}
         />
-        <Button type="submit">로그인</Button>
+        <Button
+          type="submit"
+          testId="signin-button"
+          disabled={isValidEmail(id) && isValidPassword(password)}
+        >
+          로그인
+        </Button>
       </Form>
     </SigninContainer>
   );

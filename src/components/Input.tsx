@@ -46,6 +46,6 @@ export default function Input(props: InputType) {
 
 Input.defaultProps = {
   testId: null,
-  value: '',
+  value: null,
   onChange: undefined,
 };
