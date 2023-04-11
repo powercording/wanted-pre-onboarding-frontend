@@ -7,7 +7,7 @@ interface SigninResponse {
 }
 
 export default function useSignup(url: string) {
-  const [data, setData] = useState<SigninResponse | null>(null);
+  const [data, setData] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const fn = async function fetchFN(form: FormData, method: 'POST') {
@@ -19,13 +19,14 @@ export default function useSignup(url: string) {
     };
 
     try {
-      const request = await axios.post<AxiosResponse<SigninResponse>>(
+      const response = await axios.post<AxiosResponse<SigninResponse>>(
         url,
         form,
         axiosPostHeader,
       );
-      const result = request.data;
-      if (result.status === 201) setData(result);
+
+      const result = response.status;
+      if (response.status === 201) setData(result);
     } catch (axiosError) {
       if (axiosError instanceof AxiosError) {
         setError(axiosError.message);

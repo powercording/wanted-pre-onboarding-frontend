@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Inpuut from './components/Input.tsx';
 import Button from './components/button.tsx';
 import useSignup from './hooks/useSignup.tsx';
+import CONST from './lib/CONSTANT.ts';
 
 const SigninContainer = styled.div`
   padding: 20px;
@@ -17,16 +19,29 @@ const Form = styled.form`
 export default function SingUp() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
   const [signupFn, signupData, singupError] = useSignup(
-    'https://www.pre-onboarding-selection-task.shop/auth/signup',
+    `${CONST.API}${CONST.SIGNUP}`,
   );
 
+  useEffect(() => {
+    if (signupData === 201) {
+      navigate('/signin');
+    }
+  }, [signupData, navigate]);
+
+  useEffect(() => {
+    if (singupError) {
+      alert(singupError);
+    }
+  }, [singupError]);
+
   const isValidEmail = (inputId: string) => {
-    return inputId.includes('@');
+    return inputId.includes(CONST.VALIDEMAIL);
   };
 
   const isValidPassword = (inputPassword: string) => {
-    return inputPassword.length >= 8;
+    return inputPassword.length >= CONST.VALIDPASSWORD;
   };
 
   const handleInputId = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +54,6 @@ export default function SingUp() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('submit!');
 
     if (id && password) {
       const formData = new FormData();
@@ -49,9 +63,6 @@ export default function SingUp() {
       signupFn(formData, 'POST');
     }
   };
-
-  console.log(signupData);
-  console.log(singupError);
 
   return (
     <SigninContainer>
