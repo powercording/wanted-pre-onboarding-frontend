@@ -22,7 +22,7 @@ export default function SingUp() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
-  const [signupFn, signupData, singupError] = useSignApi(
+  const [signupFn, signupResult, singupError] = useSignApi(
     `${CONST.API}${CONST.SIGNUP}`,
   );
 
@@ -30,10 +30,10 @@ export default function SingUp() {
   useRedirect({ type: 'LOGIN', path: '/todo', isLogin });
 
   useEffect(() => {
-    if (signupData === 201) {
+    if (signupResult === 201) {
       navigate('/signin');
     }
-  }, [signupData, navigate]);
+  }, [signupResult, navigate]);
 
   useEffect(() => {
     if (singupError) {
