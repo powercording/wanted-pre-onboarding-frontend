@@ -85,7 +85,7 @@ export default function SingUp() {
         />
         <Button
           type="submit"
-          testId="signin-button"
+          testId="signup-button"
           disabled={isValidEmail(id) && isValidPassword(password)}
         >
           로그인

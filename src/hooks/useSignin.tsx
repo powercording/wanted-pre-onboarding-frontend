@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
-export default function useSignup(url: string) {
-  const [data, setData] = useState<number | null>(null);
+export default function useSignin(url: string) {
+  const [data, setData] = useState<number | string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  interface SigninResponse {
+    acces_token: string;
+  }
 
   const fn = async function fetchFN(form: FormData, method: 'POST') {
     const axiosPostHeader = {
@@ -14,10 +18,16 @@ export default function useSignup(url: string) {
     };
 
     try {
-      const response = await axios.post<null>(url, form, axiosPostHeader);
+      const response = await axios.post<SigninResponse>(
+        url,
+        form,
+        axiosPostHeader,
+      );
 
-      const result = response.status;
-      if (response.status === 201) setData(result);
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.acces_token);
+        setData(response.status);
+      }
     } catch (axiosError) {
       if (axiosError instanceof AxiosError) {
         setError(axiosError.message);

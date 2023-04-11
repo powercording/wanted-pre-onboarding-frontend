@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Inpuut from './components/Input.tsx';
 import Button from './components/button.tsx';
+import CONST from './lib/CONSTANT.ts';
+import useSignin from './hooks/useSignin.tsx';
 
 const SigninContainer = styled.div`
   padding: 20px;
@@ -16,13 +19,29 @@ const Form = styled.form`
 export default function SignIn() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const navigate = useNavigate();
+  const [signinFn, signinResult, signinError] = useSignin(
+    `${CONST.API}${CONST.SIGNIN}`,
+  );
+
+  useEffect(() => {
+    if (signinResult === 200) {
+      navigate('/todo');
+    }
+  }, [signinResult, navigate]);
+
+  useEffect(() => {
+    if (signinError) {
+      alert(signinError);
+    }
+  }, [signinError]);
 
   const isValidEmail = (inputId: string) => {
-    return inputId.includes('@');
+    return inputId.includes(CONST.VALIDEMAIL);
   };
 
   const isValidPassword = (inputPassword: string) => {
-    return inputPassword.length >= 8;
+    return inputPassword.length >= CONST.VALIDPASSWORD;
   };
 
   const handleInputId = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +54,14 @@ export default function SignIn() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (id && password) {
+      const formData = new FormData();
+      formData.append('email', id);
+      formData.append('password', password);
+
+      signinFn(formData, 'POST');
+    }
   };
 
   return (
