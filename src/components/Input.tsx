@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const InputRow = styled.div`
-  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,32 +18,34 @@ const InputTag = styled.input`
 const Label = styled.label``;
 
 interface InputType {
-  type: string;
+  type: 'text' | 'password' | 'number';
   placeholder: string;
   label: string;
   testId?: string;
+  value?: string | number | readonly string[] | undefined;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input(props: InputType) {
-  const { type, placeholder, label, testId } = props;
+  const { type, placeholder, label, testId, value, onChange } = props;
 
-  if (label) {
-    return (
-      <InputRow>
-        <Label htmlFor={label}>{label}</Label>
-        <InputTag
-          type={type}
-          placeholder={placeholder}
-          id={label}
-          data-testid={testId}
-        />
-      </InputRow>
-    );
-  }
-
-  return <InputTag type={type} placeholder={placeholder} />;
+  return (
+    <InputRow>
+      {label && <Label htmlFor={label}>{label}</Label>}
+      <InputTag
+        type={type}
+        placeholder={placeholder}
+        id={label}
+        data-testid={testId}
+        value={value}
+        onChange={onChange}
+      />
+    </InputRow>
+  );
 }
 
 Input.defaultProps = {
   testId: null,
+  value: '',
+  onChange: undefined,
 };
