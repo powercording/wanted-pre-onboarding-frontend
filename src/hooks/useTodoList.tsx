@@ -18,7 +18,10 @@ export interface Mutate {
 interface Response {
   response: AxiosResponse<Todo>;
   method: 'POST' | 'PUT' | 'DELETE';
+  id?: number;
 }
+
+type RequsetType = AxiosRequestConfig;
 
 export default function useTodoList() {
   const [list, setList] = useState<Todo[]>([]);
@@ -59,7 +62,7 @@ export default function useTodoList() {
   }, [error]);
 
   const generateRequest = ({ method, id, body }: Mutate) => {
-    const request: AxiosRequestConfig = {
+    const request: RequsetType = {
       method,
       url: id
         ? `${CONST.API}${CONST.TODOS}/${id}`
@@ -98,15 +101,21 @@ export default function useTodoList() {
   };
 
   const mutate = async (args: Mutate) => {
-    const { method } = args;
+    const { method, id } = args;
     let result: AxiosResponse;
 
     const request = generateRequest(args);
     try {
       result = await axios(request);
+
       const { status } = result;
-      if (status === 200 || status === 201 || status === 204)
+
+      if (status === 200 || status === 201) {
         setApiResponse({ response: result, method });
+      }
+      if (status === 204) {
+        setApiResponse({ response: result, method, id });
+      }
     } catch (axiosError) {
       if (axiosError instanceof AxiosError) {
         setError(axiosError.message);
@@ -116,11 +125,11 @@ export default function useTodoList() {
 
   useEffect(() => {
     if (apiResponse) {
-      const { method, response } = apiResponse;
+      const { method, response, id } = apiResponse;
 
       switch (method) {
         case 'DELETE':
-          handleDelete(response.data.id);
+          if (id) handleDelete(id);
           break;
         case 'POST':
           handlePost(response.data);
@@ -134,7 +143,7 @@ export default function useTodoList() {
     }
 
     setApiResponse(undefined);
-  }, [apiResponse]);
+  }, [apiResponse, mutate]);
 
-  return [list, setList, mutate] as const;
+  return [list, mutate] as const;
 }

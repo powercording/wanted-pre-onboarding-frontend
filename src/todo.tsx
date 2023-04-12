@@ -22,14 +22,11 @@ const TodoRow = styled(TodoContainer)`
 
 export default function Todo() {
   const isLogin = localStorage.getItem('token');
-  const [list, setList, mutate] = useTodoList();
+  const [list, mutate] = useTodoList();
   const [inputText, setInputText] = useState<string>('');
 
   // if no loggedin redirect user to "signin" page
   useRedirect({ type: '!LOGIN', path: '/signin', isLogin });
-
-  console.log(list);
-  console.log(setList);
 
   const cleanInputField = () => {
     setInputText('');
