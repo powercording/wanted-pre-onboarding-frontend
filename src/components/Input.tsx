@@ -9,13 +9,15 @@ const InputRow = styled.div`
 `;
 
 const InputTag = styled.input`
-  width: 200px;
+  width: 100%;
   height: 30px;
   border-radius: 5px;
   border: 1px solid grey;
 `;
 
-const Label = styled.label``;
+const Label = styled.label`
+  width: 100px;
+`;
 
 interface InputType {
   type: 'text' | 'password' | 'number' | 'checkbox';

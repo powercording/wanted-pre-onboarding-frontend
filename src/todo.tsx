@@ -6,8 +6,8 @@ import Button from './components/button.tsx';
 
 export default function Todo() {
   const isLogin = localStorage.getItem('token');
-  const [list, setList, listError] = useTodoList();
-  const [inputText, setInputText] = useState<string | undefined>('');
+  const [list, setList, mutate] = useTodoList();
+  const [inputText, setInputText] = useState<string>('');
   // const [todobutton, settodobutton] = useState<string | null>(null);
 
   // if no loggedin redirect user to "signin" page
@@ -15,7 +15,7 @@ export default function Todo() {
 
   console.log(list);
   console.log(setList);
-  console.log(listError);
+  console.log(mutate);
 
   const cleanInputField = () => {
     setInputText('');
@@ -26,8 +26,11 @@ export default function Todo() {
   };
 
   const handleAddTodo = () => {
-    console.log(inputText);
     cleanInputField();
+
+    const data = new FormData();
+    data.append('todo', inputText);
+    mutate({ method: 'POST', body: data });
   };
 
   return (
@@ -36,6 +39,7 @@ export default function Todo() {
       <Input
         type="text"
         testId="new-todo-input"
+        placeholder="plz let me know what to do"
         value={inputText}
         onChange={handleInputText}
       />

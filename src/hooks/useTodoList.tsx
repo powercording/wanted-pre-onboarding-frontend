@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 import CONST from '../lib/CONSTANT.ts';
 
 interface Todo {
@@ -16,7 +16,7 @@ interface Mutate {
 }
 
 interface Response {
-  apiResponse: AxiosResponse;
+  response: AxiosResponse<Todo>;
   method: 'POST' | 'PUT' | 'DELETE';
 }
 
@@ -77,43 +77,64 @@ export default function useTodoList() {
     return request;
   };
 
+  const handleDelete = (id: number) => {
+    const index = list.findIndex(todo => todo.id === id);
+    const copyList = [...list];
+    copyList.splice(index, 1);
+
+    setList(copyList);
+  };
+
   const handlePost = (todoResponse: Todo) => {
     setList(prev => [...prev, todoResponse]);
   };
 
-  // const handleDelete = (id: number) => {
-  //   const index = list.findIndex(todo => todo.id === id);
-  //   const copyList = [...list];
-  //   copyList.splice(index, 1);
+  const handlePut = (todoResponse: Todo) => {
+    const index = list.findIndex(todo => todo.id === todoResponse.id);
+    const copyList = [...list];
+    copyList[index] = { ...todoResponse };
 
-  //   setList(copyList);
-  // };
-
-  // const handlePut = (todoResponse: Todo) => {
-  //   const index = list.findIndex(todo => todo.id === todoResponse.id);
-  //   const copyList = [...list];
-  //   copyList[index] = { ...todoResponse };
-
-  //   setList(copyList);
-  // };
+    setList(copyList);
+  };
 
   const mutate = async (args: Mutate) => {
     const { method } = args;
-    let result;
+    let result: AxiosResponse;
 
     const request = generateRequest(args);
     try {
       result = await axios(request);
-      if (result.status === (200 | 201 | 240))
-        setApiResponse({ apiResponse: result, method });
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setError(error.message);
+      const { status } = result;
+      if (status === 200 || status === 201 || status === 204)
+        setApiResponse({ response: result, method });
+    } catch (axiosError) {
+      if (axiosError instanceof AxiosError) {
+        setError(axiosError.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (apiResponse) {
+      const { method, response } = apiResponse;
+
+      switch (method) {
+        case 'DELETE':
+          handleDelete(response.data.id);
+          break;
+        case 'POST':
+          handlePost(response.data);
+          break;
+        case 'PUT':
+          handlePut(response.data);
+          break;
+        default:
+          break;
       }
     }
 
-    // Todo: 메소드에 따른 함수호출 설정 ?  useEffect ?
-  };
+    setApiResponse(undefined);
+  }, [apiResponse]);
 
   return [list, setList, mutate] as const;
 }
