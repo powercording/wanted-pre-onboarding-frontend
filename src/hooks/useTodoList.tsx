@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 import CONST from '../lib/CONSTANT.ts';
 
-interface Todo {
+export interface Todo {
   id: number;
   todo: string;
   isCompleted: boolean;
-  userId: number;
+  userId?: number;
 }
 
-interface Mutate {
+export interface Mutate {
   method: 'POST' | 'PUT' | 'DELETE';
   id?: number;
-  body?: FormData;
+  body?: FormData | { todo: string; isCompleted: boolean };
 }
 
 interface Response {
