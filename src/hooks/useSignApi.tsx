@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
 interface SignResponse {
+  /* eslint-disable camelcase */
   access_token: string;
 }
 
