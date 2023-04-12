@@ -19,8 +19,8 @@ const Label = styled.label``;
 
 interface InputType {
   type: 'text' | 'password' | 'number';
-  placeholder: string;
   label: string;
+  placeholder?: string;
   testId?: string;
   value?: string | number | readonly string[] | undefined;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -45,6 +45,7 @@ export default function Input(props: InputType) {
 }
 
 Input.defaultProps = {
+  placeholder: '',
   testId: null,
   value: null,
   onChange: undefined,
