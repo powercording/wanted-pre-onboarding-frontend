@@ -19,19 +19,19 @@ export default function NaviButton(props: NaviButtonProps) {
 
   const handleNavigateSignin = () => {
     if (hereLocation === 'SIGNIN') {
-      return navigate('/onboardingtodo');
+      return navigate('/');
     }
     return navigate('/signin');
   };
   const handleNavigateSignup = () => {
     if (hereLocation === 'SIGNUP') {
-      return navigate('/onboardingtodo');
+      return navigate('/');
     }
     return navigate('/signup');
   };
   const handleNavigateTodo = () => {
     if (hereLocation === 'TODO') {
-      return navigate('/onboardingtodo');
+      return navigate('/');
     }
     return navigate('/todo');
   };
