@@ -51,6 +51,11 @@ export default function TodoComponent(props: TodoProps) {
     handleModifie();
   };
 
+  const handleCancle = () => {
+    setInputText(todo);
+    setIsModifying(false);
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
@@ -60,11 +65,15 @@ export default function TodoComponent(props: TodoProps) {
       <label htmlFor={id.toString()}>
         <input
           type="checkbox"
-          checked={isCompleted || false}
+          checked={isCompleted}
           onChange={handleIsCompleted}
         />
         {isModifying ? (
-          <input value={inputText} onChange={handleInputChange} />
+          <input
+            value={inputText}
+            onChange={handleInputChange}
+            data-testid="modify-input"
+          />
         ) : (
           <span id={id.toString()}>{todo}</span>
         )}
@@ -72,17 +81,17 @@ export default function TodoComponent(props: TodoProps) {
       <ButtonBox>
         <button
           type="button"
-          data-testid="modify-button"
+          data-testid={isModifying ? 'submit-button' : 'modify-button'}
           onClick={isModifying ? handleSubmit : handleModifie}
         >
           {isModifying ? '제출' : '수정'}
         </button>
         <button
           type="button"
-          data-testid="delete-button"
-          onClick={handleDelete}
+          data-testid={isModifying ? 'cancel-button' : 'delete-button'}
+          onClick={isModifying ? handleCancle : handleDelete}
         >
-          삭제
+          {isModifying ? '취소' : '삭제'}
         </button>
       </ButtonBox>
     </Row>
