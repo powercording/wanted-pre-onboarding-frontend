@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Todo, Mutate } from '../hooks/useTodoList.tsx';
 
@@ -21,6 +21,8 @@ interface TodoProps extends Todo {
 
 export default function TodoComponent(props: TodoProps) {
   const { id, isCompleted, mutate, todo } = props;
+  const [isModifying, setIsModifying] = useState<boolean>(false);
+  const [inputText, setInputText] = useState<string>(todo);
 
   const handleIsCompleted = () => {
     const checked = !isCompleted;
@@ -36,6 +38,23 @@ export default function TodoComponent(props: TodoProps) {
     mutate({ method: 'DELETE', id });
   };
 
+  const handleModifie = () => {
+    setIsModifying(prev => !prev);
+  };
+
+  const handleSubmit = () => {
+    const data = {
+      todo: inputText,
+      isCompleted,
+    };
+    mutate({ method: 'PUT', id, body: data });
+    handleModifie();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(e.target.value);
+  };
+
   return (
     <Row>
       <label htmlFor={id.toString()}>
@@ -44,11 +63,25 @@ export default function TodoComponent(props: TodoProps) {
           checked={isCompleted || false}
           onChange={handleIsCompleted}
         />
-        <span id={id.toString()}>{todo}</span>
+        {isModifying ? (
+          <input value={inputText} onChange={handleInputChange} />
+        ) : (
+          <span id={id.toString()}>{todo}</span>
+        )}
       </label>
       <ButtonBox>
-        <button type="button">수정</button>
-        <button type="button" onClick={handleDelete}>
+        <button
+          type="button"
+          data-testid="modify-button"
+          onClick={isModifying ? handleSubmit : handleModifie}
+        >
+          {isModifying ? '제출' : '수정'}
+        </button>
+        <button
+          type="button"
+          data-testid="delete-button"
+          onClick={handleDelete}
+        >
           삭제
         </button>
       </ButtonBox>
