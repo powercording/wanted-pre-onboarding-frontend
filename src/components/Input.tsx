@@ -18,8 +18,8 @@ const InputTag = styled.input`
 const Label = styled.label``;
 
 interface InputType {
-  type: 'text' | 'password' | 'number';
-  label: string;
+  type: 'text' | 'password' | 'number' | 'checkbox';
+  label?: string;
   placeholder?: string;
   testId?: string;
   value?: string | number | readonly string[] | undefined;
@@ -45,6 +45,7 @@ export default function Input(props: InputType) {
 }
 
 Input.defaultProps = {
+  label: '',
   placeholder: '',
   testId: null,
   value: null,

@@ -1,3 +1,11 @@
+import React from 'react';
 export default function Todo() {
-  return <li>투두리스트</li>;
+  return (
+    <li>
+      <label>
+        <input></input>
+        <span>Todo1</span>
+      </label>
+    </li>
+  );
 }

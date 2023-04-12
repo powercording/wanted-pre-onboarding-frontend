@@ -15,7 +15,7 @@ const Btn = styled.button`
 interface BtnType {
   type: 'button' | 'submit' | 'reset';
   children: ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
   testId?: string;
   onClick?: () => void;
 }
@@ -36,6 +36,7 @@ export default function Button(props: BtnType) {
 }
 
 Button.defaultProps = {
-  onClick: undefined,
+  disabled: true,
   testId: null,
+  onClick: undefined,
 };
