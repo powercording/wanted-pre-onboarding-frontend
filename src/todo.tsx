@@ -5,6 +5,7 @@ import useTodoList from './hooks/useTodoList.tsx';
 import Input from './components/Input.tsx';
 import Button from './components/button.tsx';
 import TodoComponent from './components/TodoComponent.tsx';
+import NaviButton from './components/NaviButton.tsx';
 
 const TodoContainer = styled.div`
   display: flex;
@@ -74,6 +75,7 @@ export default function Todo() {
           />
         ))}
       </TodoRow>
+      <NaviButton hereLocation="TODO" />
     </TodoContainer>
   );
 }

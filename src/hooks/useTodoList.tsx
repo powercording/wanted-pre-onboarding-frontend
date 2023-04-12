@@ -28,14 +28,14 @@ export default function useTodoList() {
   const [error, setError] = useState<string | null>();
   const [apiResponse, setApiResponse] = useState<Response>();
 
-  const header = {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  };
-
   useEffect(() => {
+    const header = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    };
+
     const getTodos = async () => {
       try {
         const result = await axios.get<Todo[]>(
@@ -54,13 +54,6 @@ export default function useTodoList() {
     getTodos();
   }, []);
 
-  useEffect(() => {
-    if (error) {
-      alert(error);
-      setError(null);
-    }
-  }, [error]);
-
   const generateRequest = ({ method, id, body }: Mutate) => {
     const request: RequsetType = {
       method,
@@ -78,26 +71,6 @@ export default function useTodoList() {
     }
 
     return request;
-  };
-
-  const handleDelete = (id: number) => {
-    const index = list.findIndex(todo => todo.id === id);
-    const copyList = [...list];
-    copyList.splice(index, 1);
-
-    setList(copyList);
-  };
-
-  const handlePost = (todoResponse: Todo) => {
-    setList(prev => [...prev, todoResponse]);
-  };
-
-  const handlePut = (todoResponse: Todo) => {
-    const index = list.findIndex(todo => todo.id === todoResponse.id);
-    const copyList = [...list];
-    copyList[index] = { ...todoResponse };
-
-    setList(copyList);
   };
 
   const mutate = async (args: Mutate) => {
@@ -123,6 +96,26 @@ export default function useTodoList() {
     }
   };
 
+  const handlePost = (todoResponse: Todo) => {
+    setList(prev => [...prev, todoResponse]);
+  };
+
+  const handleDelete = (id: number) => {
+    const index = list.findIndex(todo => todo.id === id);
+    const copyList = [...list];
+    copyList.splice(index, 1);
+
+    setList(copyList);
+  };
+
+  const handlePut = (todoResponse: Todo) => {
+    const index = list.findIndex(todo => todo.id === todoResponse.id);
+    const copyList = [...list];
+    copyList[index] = { ...todoResponse };
+
+    setList(copyList);
+  };
+
   useEffect(() => {
     if (apiResponse) {
       const { method, response, id } = apiResponse;
@@ -144,6 +137,13 @@ export default function useTodoList() {
 
     setApiResponse(undefined);
   }, [apiResponse, mutate]);
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+      setError(null);
+    }
+  }, [error]);
 
   return [list, mutate] as const;
 }

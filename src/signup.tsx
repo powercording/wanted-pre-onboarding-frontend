@@ -6,6 +6,7 @@ import Button from './components/button.tsx';
 import useSignApi from './hooks/useSignApi.tsx';
 import useRedirect from './hooks/useRedirect.tsx';
 import CONST from './lib/CONSTANT.ts';
+import NaviButton from './components/NaviButton.tsx';
 
 const SigninContainer = styled.div`
   padding: 20px;
@@ -97,6 +98,7 @@ export default function SingUp() {
           로그인
         </Button>
       </Form>
+      <NaviButton hereLocation="SIGNUP" />
     </SigninContainer>
   );
 }
