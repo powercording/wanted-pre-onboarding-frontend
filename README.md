@@ -8,7 +8,7 @@ npm start
 
 # 배포페이지
 
-### [링크 클릭하면 배포 페이지로 이동합니다.<<<<<](https://webdevfront.com/)
+### [링크 클릭하면 배포 페이지로 이동합니다.<<<<<](https://webdevfront.com/){:target="_blank"}
 
 <hr/>
 
