@@ -52,8 +52,8 @@ export default function TodoComponent(props: TodoProps) {
   };
 
   const handleCancle = () => {
-    setInputText(todo);
-    setIsModifying(false);
+    setInputText(() => todo);
+    setIsModifying(() => false);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -105,7 +105,7 @@ export default function useTodoList() {
     const copyList = [...list];
     copyList.splice(index, 1);
 
-    setList(copyList);
+    setList(() => copyList);
   };
 
   const handlePut = (todoResponse: Todo) => {
@@ -113,7 +113,7 @@ export default function useTodoList() {
     const copyList = [...list];
     copyList[index] = { ...todoResponse };
 
-    setList(copyList);
+    setList(() => copyList);
   };
 
   useEffect(() => {
