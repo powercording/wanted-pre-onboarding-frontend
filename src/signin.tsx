@@ -23,9 +23,7 @@ export default function SignIn() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
-  const [signinFn, signinResult, signinError] = useSignApi(
-    `${CONST.API}${CONST.SIGNIN}`,
-  );
+  const [signinFn, signinResult] = useSignApi(`${CONST.API}${CONST.SIGNIN}`);
 
   // if loggedin redirect user to "todo" page
   useRedirect({ type: 'LOGIN', path: '/todo', isLogin });
@@ -35,12 +33,6 @@ export default function SignIn() {
       navigate('/todo');
     }
   }, [signinResult, navigate]);
-
-  useEffect(() => {
-    if (signinError) {
-      alert(signinError);
-    }
-  }, [signinError]);
 
   const isValidEmail = (inputId: string) => {
     return inputId.includes(CONST.VALIDEMAIL);

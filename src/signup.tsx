@@ -23,9 +23,7 @@ export default function SingUp() {
   const [id, setId] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigate = useNavigate();
-  const [signupFn, signupResult, singupError] = useSignApi(
-    `${CONST.API}${CONST.SIGNUP}`,
-  );
+  const [signupFn, signupResult] = useSignApi(`${CONST.API}${CONST.SIGNUP}`);
 
   // if loggedin redirect user to "todo" page
   useRedirect({ type: 'LOGIN', path: '/todo', isLogin });
@@ -35,12 +33,6 @@ export default function SingUp() {
       navigate('/signin');
     }
   }, [signupResult, navigate]);
-
-  useEffect(() => {
-    if (singupError) {
-      alert(singupError);
-    }
-  }, [singupError]);
 
   const isValidEmail = (inputId: string) => {
     return inputId.includes(CONST.VALIDEMAIL);
@@ -95,7 +87,7 @@ export default function SingUp() {
           testId="signup-button"
           disabled={isValidEmail(id) && isValidPassword(password)}
         >
-          로그인
+          회원가입
         </Button>
       </Form>
       <NaviButton hereLocation="SIGNUP" />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios, { AxiosError, AxiosResponse, AxiosRequestConfig } from 'axios';
 import CONST from '../lib/CONSTANT.ts';
+import { ErrorResponse } from './useSignApi.tsx';
 
 export interface Todo {
   id: number;
@@ -25,7 +26,7 @@ type RequsetType = AxiosRequestConfig;
 
 export default function useTodoList() {
   const [list, setList] = useState<Todo[]>([]);
-  const [error, setError] = useState<string | null>();
+  const [error, setError] = useState<AxiosError<ErrorResponse>>();
   const [apiResponse, setApiResponse] = useState<Response>();
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function useTodoList() {
         }
       } catch (axiosError) {
         if (axiosError instanceof AxiosError) {
-          setError(axiosError.message);
+          setError(axiosError);
         }
       }
     };
@@ -91,7 +92,7 @@ export default function useTodoList() {
       }
     } catch (axiosError) {
       if (axiosError instanceof AxiosError) {
-        setError(axiosError.message);
+        setError(axiosError);
       }
     }
   };
@@ -140,8 +141,8 @@ export default function useTodoList() {
 
   useEffect(() => {
     if (error) {
-      alert(error);
-      setError(null);
+      alert(error.response?.data.message);
+      setError(undefined);
     }
   }, [error]);
 
