@@ -13,12 +13,14 @@ export interface ErrorResponse {
 }
 
 export default function useSignApi(url: string) {
+  // 변수명 data 바꾸기.
   const [data, setData] = useState<number | null>(null);
   const [error, setError] = useState<AxiosError<ErrorResponse>>();
 
   useEffect(() => {
     if (error) {
       alert(error.response?.data.message);
+      // 이펙트에서 셋 함수 쓰지 않기.
       setError(undefined);
     }
   }, [error]);

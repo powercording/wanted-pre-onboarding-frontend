@@ -25,9 +25,6 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [signinFn, signinResult] = useSignApi(`${CONST.API}${CONST.SIGNIN}`);
 
-  // if loggedin redirect user to "todo" page
-  useRedirect({ type: 'LOGIN', path: '/todo', isLogin });
-
   useEffect(() => {
     if (signinResult === 200) {
       navigate('/todo');

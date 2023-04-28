@@ -35,6 +35,7 @@ export default function NaviButton(props: NaviButtonProps) {
     }
     return navigate('/todo');
   };
+
   return (
     <ButtonContainer>
       <Button type="button" onClick={handleNavigateSignin}>

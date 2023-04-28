@@ -52,6 +52,7 @@ export default function useTodoList() {
         }
       }
     };
+
     getTodos();
   }, []);
 
@@ -102,11 +103,12 @@ export default function useTodoList() {
   };
 
   const handleDelete = (id: number) => {
-    const index = list.findIndex(todo => todo.id === id);
-    const copyList = [...list];
-    copyList.splice(index, 1);
+    const filteredList = list.filter(todo => todo.id !== id);
+    // const index = list.findIndex(todo => todo.id === id);
+    // const copyList = [...list];
+    // copyList.splice(index, 1);
 
-    setList(() => copyList);
+    setList(() => filteredList);
   };
 
   const handlePut = (todoResponse: Todo) => {

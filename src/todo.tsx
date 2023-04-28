@@ -26,9 +26,6 @@ export default function Todo() {
   const [list, mutate] = useTodoList();
   const [inputText, setInputText] = useState<string>('');
 
-  // if no loggedin redirect user to "signin" page
-  useRedirect({ type: '!LOGIN', path: '/signin', isLogin });
-
   const cleanInputField = () => {
     setInputText('');
   };
@@ -66,6 +63,7 @@ export default function Todo() {
       </TodoInputRow>
       <TodoRow>
         {list.map(todo => (
+          // 비구조화 할당
           <TodoComponent
             key={todo.id}
             id={todo.id}
